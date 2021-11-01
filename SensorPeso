@@ -1,0 +1,36 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+float y = 0.0;
+float V = 0.0;
+float vol = 0.0;
+double R = 0.0;
+double P = 0.0;
+
+
+void setup()
+{
+  pinMode(A0, INPUT);
+  lcd.begin (16,2);
+  Serial.begin (9600);
+}
+
+void loop ()
+{
+  V=(analogRead(A0));
+  vol = (V*5)/1023;
+  R = 1000*((5/vol)-1);
+  y = pow((R/5999.3),(1/-0.7));
+  P = ((y/9.81)*1000);
+
+  lcd.setCursor(0,0);
+  lcd.print("Fuerza: ");
+  lcd.print(y);
+  lcd.print("N");
+  lcd.setCursor(0,1);
+  lcd.print("Peso: ");
+  lcd.print(P);
+  lcd.print(" g");
+  delay(500);
+  lcd.clear();
+}
